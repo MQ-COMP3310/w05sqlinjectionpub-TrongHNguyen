@@ -39,7 +39,6 @@ public class App {
             return;
         }
 
-        // ✅ Validate and add words from file
         try (BufferedReader br = new BufferedReader(new FileReader("resources/data.txt"))) {
             String line;
             int i = 1;
@@ -49,7 +48,6 @@ public class App {
                     wordleDatabaseConnection.addValidWord(i, line);
                 } else {
                     logger.severe("Invalid word in data.txt: " + line);
-                    System.out.println("Ignored invalid word from file: " + line);
                 }
                 i++;
             }
@@ -59,7 +57,6 @@ public class App {
             return;
         }
 
-        // ✅ Get user input and validate before checking DB
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Enter a 4 letter word for a guess or q to quit: ");
             String guess = scanner.nextLine();

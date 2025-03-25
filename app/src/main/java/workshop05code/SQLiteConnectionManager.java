@@ -12,7 +12,7 @@ public class SQLiteConnectionManager {
         try {
             LogManager.getLogManager().readConfiguration(new FileInputStream("resources/logging.properties"));
         } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
+            e1.printStackTrace(); // Optional: you can also log this if preferred
         }
     }
 
@@ -39,11 +39,11 @@ public class SQLiteConnectionManager {
         try (Connection conn = DriverManager.getConnection(databaseURL)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
+                logger.info("The driver name is " + meta.getDriverName());
+                logger.info("A new database has been created.");
             }
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "Error creating new database", e);
+            logger.log(Level.SEVERE, "Error creating new database", e);
         }
     }
 
@@ -70,6 +70,7 @@ public class SQLiteConnectionManager {
                 stmt.execute(WORDLE_CREATE_STRING);
                 stmt.execute(VALID_WORDS_DROP_TABLE_STRING);
                 stmt.execute(VALID_WORDS_CREATE_STRING);
+                logger.info("Database tables created successfully.");
                 return true;
             } catch (SQLException e) {
                 logger.log(Level.WARNING, "SQL error creating tables", e);
